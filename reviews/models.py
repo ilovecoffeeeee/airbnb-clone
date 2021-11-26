@@ -3,7 +3,7 @@ from django.db.models.deletion import CASCADE
 from core import models as core_models
 
 
-class Reviews(core_models.TimeStampedModel):
+class Review(core_models.TimeStampedModel):
     """Review Model Definition"""
 
     review = models.TextField()
