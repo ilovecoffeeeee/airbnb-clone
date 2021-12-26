@@ -52,7 +52,7 @@ class User(AbstractUser):
             secret = uuid.uuid4().hex[:20]
             self.email_secret = secret
             html_message = render_to_string(
-                "email/verify_email.html",
+                "emails/verify_email.html",
                 {"secret": secret},
             )
             send_mail(
@@ -63,4 +63,5 @@ class User(AbstractUser):
                 fail_silently=False,
                 html_message=html_message,
             )
+            self.save()
         return
