@@ -142,10 +142,12 @@ MEDIA_URL = "/media/"
 
 # Email Configuration
 
-EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_HOST = "smtp.naver.com"
 EMAIL_PORT = "587"
-EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")
+EMAIL_HOST_USER = os.environ.get("MY_USERNAME")
 print(EMAIL_HOST_USER)
-EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")
+EMAIL_HOST_PASSWORD = os.environ.get("MY_PASSWORD")
 print(EMAIL_HOST_PASSWORD)
-EMAIL_FROM = "postmaster@sandbox29964a59d2294496bfe1f08bceff6200.mailgun.org"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_FROM = "ilovepedro@naver.com"
