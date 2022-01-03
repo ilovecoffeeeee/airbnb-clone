@@ -121,3 +121,7 @@ def github_callback(request):
     except GithubException:
         # send error message
         return redirect(reverse("users:login"))
+
+
+def kakao_login(request):
+    return redirect(f"https://kauth.kakao.com/")
