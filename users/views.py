@@ -142,7 +142,7 @@ def kakao_callback(request):
         client_id = os.environ.get("KAKAO_ID")
         redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback"
         token_request = requests.get(
-            f"https://kauth.kakao.com/oauth.token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
+            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
         )
         token_json = token_request.json()
         error = token_json.get("error", None)
@@ -158,7 +158,7 @@ def kakao_callback(request):
         if email is None:
             raise KakaoException()
         properties = profile_json.get("properties")
-        nickname = properties.get("nickname")
+        nickname = properties.get("nickname")  # return None / 2022-01-05 check!
         profile_image = (
             profile_json.get("kakao_account").get("profile").get("profile_image_url")
         )
@@ -170,8 +170,8 @@ def kakao_callback(request):
             user = models.User.objects.create(
                 email=email,
                 username=email,
-                first_name=nickname,
-                login_method=models.User.LOGING_KAKAO,
+                first_name=email.split("@")[0],
+                login_method=models.User.LOGIN_KAKAO,
                 email_verified=True,
             )
 
