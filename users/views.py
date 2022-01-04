@@ -4,6 +4,7 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, reverse
 from django.contrib.auth import authenticate, login, logout
+from django.core.files.base import ContentFile
 from . import forms, models
 
 
@@ -158,7 +159,9 @@ def kakao_callback(request):
         if email is None:
             raise KakaoException()
         properties = profile_json.get("properties")
-        nickname = properties.get("nickname")  # return None / 2022-01-05 check!
+        nickname = email.split("@")[
+            0
+        ]  # properties.get("nickname")  # return None / 2022-01-05 check!
         profile_image = (
             profile_json.get("kakao_account").get("profile").get("profile_image_url")
         )
@@ -174,7 +177,13 @@ def kakao_callback(request):
                 login_method=models.User.LOGIN_KAKAO,
                 email_verified=True,
             )
-
+            user.set_unusable_password()
+            user.save()
+            if profile_image is not None:
+                photo_request = requests.get(profile_image)
+                user.avatar.save(
+                    f"{nickname}-avatar", ContentFile(photo_request.content)
+                )
         login(request, user)
         return redirect(reverse("core:home"))
 
