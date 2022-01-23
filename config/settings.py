@@ -153,3 +153,7 @@ print(EMAIL_HOST_PASSWORD)
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_FROM = "ilovepedro@naver.com"
+
+# Auth
+
+LOGIN_URL = "/user/login"
